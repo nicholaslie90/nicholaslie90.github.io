@@ -59,7 +59,17 @@
       .project .name { font-weight: 700; font-size: 1.05rem; }
       .project .desc { color: #94a3b8; font-size: 0.85rem; margin-top: 4px; line-height: 1.45; }
       .project .arrow { font-size: 1.4rem; color: #38bdf8; flex-shrink: 0; margin-left: 4px; }
-      footer { margin-top: 32px; color: #64748b; font-size: 0.8rem; text-align: center; }
+      footer { margin-top: 32px; text-align: center; }
+      footer .linkedin {
+        display: inline-flex; align-items: center; gap: 8px;
+        text-decoration: none; color: #94a3b8; font-size: 0.85rem; font-weight: 600;
+        padding: 8px 14px; border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.03); transition: all 0.15s ease;
+      }
+      footer .linkedin:hover { color: #38bdf8; border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.1); }
+      footer .linkedin svg { width: 18px; height: 18px; flex-shrink: 0; }
+      footer .copyright { margin-top: 16px; color: #64748b; font-size: 0.8rem; }
     </style>
   </head>
   <body>
