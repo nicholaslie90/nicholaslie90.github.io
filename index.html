@@ -32,8 +32,21 @@
         padding: 40px;
         backdrop-filter: blur(12px);
       }
+      .header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
       h1 { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.02em; }
       .subtitle { color: #94a3b8; margin-top: 6px; font-weight: 500; }
+      .lang-switch {
+        flex-shrink: 0; display: inline-flex; padding: 3px; gap: 2px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px;
+      }
+      .lang-switch button {
+        font-family: inherit; cursor: pointer; border: none; background: none;
+        color: #94a3b8; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.02em;
+        padding: 5px 12px; border-radius: 7px; transition: all 0.15s ease;
+      }
+      .lang-switch button:hover { color: #e2e8f0; }
+      .lang-switch button.active { background: rgba(56, 189, 248, 0.18); color: #38bdf8; }
       h2 {
         font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em;
         color: #64748b; margin: 32px 0 16px; font-weight: 700;
@@ -74,10 +87,18 @@
   </head>
   <body>
     <main class="card">
-      <h1>Nicholas Lie</h1>
-      <p class="subtitle">Web projects &amp; tools</p>
+      <div class="header">
+        <div>
+          <h1>Nicholas Lie</h1>
+          <p class="subtitle" data-en="Web projects &amp; tools" data-id="Proyek &amp; alat web">Web projects &amp; tools</p>
+        </div>
+        <div class="lang-switch" role="group" aria-label="Language">
+          <button type="button" data-lang="en">EN</button>
+          <button type="button" data-lang="id">ID</button>
+        </div>
+      </div>
 
-      <h2>Projects</h2>
+      <h2 data-en="Projects" data-id="Proyek">Projects</h2>
       <div class="projects">
         <a class="project" href="/kalkulator-kpr/">
           <span class="icon icon-kpr">
@@ -94,7 +115,7 @@
           </span>
           <span class="body">
             <span class="name">KPR Smart Dashboard</span>
-            <span class="desc">Kalkulator KPR dengan simulasi bunga fixed berjenjang, biaya akad, dan kalender pembayaran untuk skema perbankan Indonesia.</span>
+            <span class="desc" data-en="A mortgage calculator with tiered fixed-rate simulation, closing costs, and a payment calendar for Indonesian banking schemes." data-id="Kalkulator KPR dengan simulasi bunga fixed berjenjang, biaya akad, dan kalender pembayaran untuk skema perbankan Indonesia.">A mortgage calculator with tiered fixed-rate simulation, closing costs, and a payment calendar for Indonesian banking schemes.</span>
           </span>
           <span class="arrow">&rarr;</span>
         </a>
@@ -107,7 +128,7 @@
           </span>
           <span class="body">
             <span class="name">Baby Name Ideas</span>
-            <span class="desc">Browse and discover baby name ideas with meanings to help you find the perfect name.</span>
+            <span class="desc" data-en="Browse and discover baby name ideas with meanings to help you find the perfect name." data-id="Jelajahi dan temukan ide nama bayi beserta artinya untuk membantu Anda menemukan nama yang sempurna.">Browse and discover baby name ideas with meanings to help you find the perfect name.</span>
           </span>
           <span class="arrow">&rarr;</span>
         </a>
@@ -121,7 +142,7 @@
           </span>
           <span class="body">
             <span class="name">Learn Mandarin</span>
-            <span class="desc">Practice Mandarin Chinese with interactive lessons covering characters, pinyin, and vocabulary. / Belajar bahasa Mandarin dengan pelajaran interaktif yang mencakup aksara, pinyin, dan kosakata.</span>
+            <span class="desc" data-en="Practice Mandarin Chinese with interactive lessons covering characters, pinyin, and vocabulary." data-id="Belajar bahasa Mandarin dengan pelajaran interaktif yang mencakup aksara, pinyin, dan kosakata.">Practice Mandarin Chinese with interactive lessons covering characters, pinyin, and vocabulary.</span>
           </span>
           <span class="arrow">&rarr;</span>
         </a>
@@ -132,10 +153,30 @@
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/>
           </svg>
-          <span>Connect on LinkedIn</span>
+          <span data-en="Connect on LinkedIn" data-id="Terhubung di LinkedIn">Connect on LinkedIn</span>
         </a>
         <div class="copyright">&copy; 2026 Nicholas Lie</div>
       </footer>
     </main>
+
+    <script>
+      (function () {
+        var nodes = document.querySelectorAll('[data-en][data-id]');
+        var buttons = document.querySelectorAll('.lang-switch button');
+        function apply(lang) {
+          if (lang !== 'id') lang = 'en';
+          document.documentElement.lang = lang;
+          nodes.forEach(function (el) { el.innerHTML = el.getAttribute('data-' + lang); });
+          buttons.forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-lang') === lang); });
+          try { localStorage.setItem('lang', lang); } catch (e) {}
+        }
+        buttons.forEach(function (b) {
+          b.addEventListener('click', function () { apply(b.getAttribute('data-lang')); });
+        });
+        var saved;
+        try { saved = localStorage.getItem('lang'); } catch (e) {}
+        apply(saved || 'en');
+      })();
+    </script>
   </body>
 </html>
